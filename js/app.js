@@ -12,6 +12,8 @@ const cards = [
     'fa fa-bomb', 'fa fa-bomb',
 ];
 
+const deck = document.querySelector('.deck');
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -35,13 +37,12 @@ function shuffle(array) {
 }
 
 function addCardsToTheList(cards) {
-    const cardsListElement = document.querySelector('.deck');
     const fragment = document.createDocumentFragment();
     for (const card of cards) {
         const cardElement = createCard(card);
         fragment.appendChild(cardElement);
     }
-    cardsListElement.appendChild(fragment);
+    deck.appendChild(fragment);
 }
 
 function createCard(card) {
@@ -68,3 +69,63 @@ createCards();
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+let openCardsList = [];
+
+deck.addEventListener('click', function (evt) {
+    if (evt.target.nodeName === 'LI') {
+        const card = evt.target;
+        if(isCardClosed(card)){
+            showCard(card);
+            if (isFirstClickedCardInPair()) {
+                addToOpenCardsList(card);
+            } else {
+                checkPairMatchingConditions(card);
+            }
+        }
+    }
+});
+
+function checkPairMatchingConditions(card) {
+    const previousCard = openCardsList.pop();
+    if (areCardsSymbolsMatching(previousCard, card)) {
+        lockCardsInOpenPosition(previousCard, card);
+    } else {
+        closeCards(card, previousCard);
+    }
+}
+
+function areCardsSymbolsMatching(previousCard, card) {
+    const previousCardSymbol = previousCard.innerHTML;
+    const currentCardSymbol = card.innerHTML;
+    return previousCardSymbol === currentCardSymbol;
+}
+
+function closeCards(card, previousCard) {
+    setTimeout(function () {
+        card.classList.remove('open', 'show');
+        previousCard.classList.remove('open', 'show');
+    }, 2000);
+}
+
+function lockCardsInOpenPosition(previousCard, card) {
+    previousCard.classList.add('match');
+    card.classList.add('match');
+}
+
+function addToOpenCardsList(card) {
+    openCardsList.push(card);
+}
+
+function isFirstClickedCardInPair() {
+    return openCardsList.length == 0;
+}
+
+function isCardClosed(card) {
+    return !card.classList.contains('match');
+}
+
+function showCard(card) {
+    card.classList.add('open', 'show');
+}
+
