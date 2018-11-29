@@ -92,8 +92,7 @@ function handleCardClick() {
                 showCard(card);
                 if (isFirstClickedCardInPair()) {
                     addToOpenCardsList(card);
-                }
-                else {
+                } else if (isNotTheSameOpenCardClicked(card)) {
                     decreaseMovesCounter();
                     
                     checkPairMatchingConditions(card);
@@ -104,6 +103,11 @@ function handleCardClick() {
             }
         }
     };
+}
+
+function isNotTheSameOpenCardClicked(card) {
+    const firstCard = openCardsList[0];
+    return firstCard != card;
 }
 
 function handleEndOfGame() {
