@@ -14,6 +14,11 @@ const cards = [
 
 const deck = document.querySelector('.deck');
 
+const movesElement = document.querySelector('.moves');
+
+const starsList = document.querySelector('.stars');
+const initialNoOfStars =starsList.childElementCount;
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -71,20 +76,70 @@ createCards();
  */
 
 let openCardsList = [];
+let movesLeft = parseInt(movesElement.textContent);
+const movesPerStar = movesLeft / initialNoOfStars;
+let starsIndex = 0;
 
-deck.addEventListener('click', function (evt) {
-    if (evt.target.nodeName === 'LI') {
-        const card = evt.target;
-        if(isCardClosed(card)){
-            showCard(card);
-            if (isFirstClickedCardInPair()) {
-                addToOpenCardsList(card);
-            } else {
-                checkPairMatchingConditions(card);
+let deckOnClickFunction = null;
+
+deck.addEventListener('click', deckOnClickFunction = handleCardClick());
+
+function handleCardClick() {
+    return function (evt) {
+        if (evt.target.nodeName === 'LI') {
+            const card = evt.target;
+            if (isCardClosed(card)) {
+                showCard(card);
+                if (isFirstClickedCardInPair()) {
+                    addToOpenCardsList(card);
+                }
+                else {
+                    decreaseMovesCounter();
+                    
+                    checkPairMatchingConditions(card);
+                    
+                    handleStarsRemoval();
+                    handleEndOfGame();
+                }
             }
         }
+    };
+}
+
+function handleEndOfGame() {
+    if (noMoreMovesLeft()) {
+        disableClickingOnCards();
+        changeCardsCursorToDefault();
     }
-});
+}
+
+function noMoreMovesLeft() {
+    return movesLeft == 0;
+}
+
+function disableClickingOnCards() {
+    deck.removeEventListener('click', deckOnClickFunction);
+}
+
+function changeCardsCursorToDefault() {
+    const cardElements = deck.children;
+    for (const cardElement of cardElements) {
+        cardElement.style.cursor = 'default';
+    }
+}
+
+function handleStarsRemoval() {
+    starsIndex++;
+    if (starsIndex == movesPerStar) {
+        starsList.removeChild(starsList.lastElementChild);
+        starsIndex = 0;
+    }
+}
+
+function decreaseMovesCounter() {
+    movesLeft--;
+    movesElement.textContent = movesLeft;
+}
 
 function checkPairMatchingConditions(card) {
     const previousCard = openCardsList.pop();
