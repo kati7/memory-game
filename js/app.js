@@ -11,6 +11,7 @@ const cards = [
     'fa fa-bicycle', 'fa fa-bicycle',
     'fa fa-bomb', 'fa fa-bomb',
 ];
+const noOfPairs = cards.length / 2;
 
 const deck = document.querySelector('.deck');
 
@@ -76,11 +77,13 @@ createCards();
  */
 
 let openCardsList = [];
-let movesLeft = parseInt(movesElement.textContent);
-const movesPerStar = movesLeft / initialNoOfStars;
+const initialNoOfMoves = parseInt(movesElement.textContent);
+let movesLeft = initialNoOfMoves;
+const movesPerStar = initialNoOfMoves / initialNoOfStars;
+let starsLeft = initialNoOfStars;
 let starsIndex = 0;
-
 let deckOnClickFunction = null;
+let matchingPairs = 0;
 
 deck.addEventListener('click', deckOnClickFunction = handleCardClick());
 
@@ -115,6 +118,13 @@ function handleEndOfGame() {
         disableClickingOnCards();
         changeCardsCursorToDefault();
     }
+    if (matchingPairs == noOfPairs) {
+        console.log("You won;")
+        const usedMoves = initialNoOfMoves - movesLeft;
+        const movesInfoElement = document.querySelector('.modal-moves-info');
+        movesInfoElement.textContent = `With ${usedMoves} moves and ${starsLeft} stars`;
+        modal.style.display = 'block';
+    }
 }
 
 function noMoreMovesLeft() {
@@ -137,6 +147,7 @@ function handleStarsRemoval() {
     if (starsIndex == movesPerStar) {
         starsList.removeChild(starsList.lastElementChild);
         starsIndex = 0;
+        starsLeft--;
     }
 }
 
@@ -149,6 +160,7 @@ function checkPairMatchingConditions(card) {
     const previousCard = openCardsList.pop();
     if (areCardsSymbolsMatching(previousCard, card)) {
         lockCardsInOpenPosition(previousCard, card);
+        matchingPairs++;
     } else {
         closeCards(card, previousCard);
     }
@@ -187,4 +199,31 @@ function isCardClosed(card) {
 function showCard(card) {
     card.classList.add('open', 'show');
 }
+
+// Get the modal
+const modal = document.getElementById('winning-modal');
+
+// Get the button that opens the modal
+const btn = document.getElementById('myBtn');
+
+// Get the <span> element that closes the modal
+const span = document.getElementsByClassName('close')[0];
+
+// When the user clicks on the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = 'block';
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = 'none';
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+});
+
 
