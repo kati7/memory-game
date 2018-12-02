@@ -142,6 +142,17 @@ h1 {
     margin: 0;
 }
 
+.well-done-sign {
+    color: green;
+}
+
+.play-again-button {
+    background-color: #14ab9d;
+    color: white;
+    width: 100px;
+    height: 30px;
+}
+
 
 
 /* The Close Button */
