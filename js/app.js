@@ -137,8 +137,9 @@ function displayWinningMessage() {
 
 function prepareWinningText() {
     const usedMoves = initialNoOfMoves - movesLeft;
+    const usedTime = timerElement.textContent;
     const movesInfoElement = document.querySelector('.modal--moves-info');
-    movesInfoElement.textContent = `With ${usedMoves} moves and ${starsLeft} stars`;
+    movesInfoElement.textContent = `With ${usedMoves} moves and ${starsLeft} stars in ${usedTime} seconds`;
 }
 
 function noMoreMovesLeft() {
