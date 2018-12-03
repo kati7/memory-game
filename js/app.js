@@ -130,10 +130,14 @@ function displayLosingMessage() {
 }
 
 function displayWinningMessage() {
-    const usedMoves = initialNoOfMoves - movesLeft;
-    const movesInfoElement = document.querySelector('.modal-moves-info');
-    movesInfoElement.textContent = `With ${usedMoves} moves and ${starsLeft} stars`;
+    prepareWinningText();
     winningModal.style.display = 'block';
+}
+
+function prepareWinningText() {
+    const usedMoves = initialNoOfMoves - movesLeft;
+    const movesInfoElement = document.querySelector('.modal--moves-info');
+    movesInfoElement.textContent = `With ${usedMoves} moves and ${starsLeft} stars`;
 }
 
 function noMoreMovesLeft() {
@@ -185,7 +189,7 @@ function closeCards(card, previousCard) {
     setTimeout(function () {
         card.classList.remove('open', 'show');
         previousCard.classList.remove('open', 'show');
-    }, 2000);
+    }, 500);
 }
 
 function lockCardsInOpenPosition(previousCard, card) {
@@ -209,12 +213,12 @@ function showCard(card) {
     card.classList.add('open', 'show');
 }
 
+/*
+ * Functionality for handling modals
+ */
 // Get the modals
 const winningModal = document.getElementById('winning-modal');
 const losingModal = document.getElementById('losing-modal');
-
-// Get the button that opens the modal
-const btn = document.getElementById('myBtn');
 
 // Get the <span> element that closes the modal
 const winningSpan = document.getElementById('winning-modal__close');
@@ -223,12 +227,6 @@ const losingSpan = document.getElementById('losing-modal__close');
 // Get the 'playing again' buttons
 const winningButton =  document.getElementById('winning-modal__button');
 const losingButton =  document.getElementById('losing-modal__button');
-
-// When the user clicks on the button, open the modal 
-btn.onclick = function() {
-    winningModal.style.display = 'block';
-    // losingModal.style.display = 'block';
-}
 
 // When the user clicks on <span> (x), close the modal
 winningSpan.onclick = function() {
@@ -250,6 +248,14 @@ losingButton.onclick = function() {
     restartGame();
 }
 
+function closeWinningModal() {
+    winningModal.style.display = 'none';
+}
+
+function closeLosingModal() {
+    losingModal.style.display = 'none';
+}
+
 // When the user clicks anywhere outside of the modal, close it
 window.addEventListener('click', function(event) {
     if (event.target == winningModal) {
@@ -267,13 +273,3 @@ function restartGame() {
 }
 
 restart.onclick = restartGame;
-
-
-function closeLosingModal() {
-    losingModal.style.display = 'none';
-}
-
-function closeWinningModal() {
-    winningModal.style.display = 'none';
-}
-
