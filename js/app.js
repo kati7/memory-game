@@ -117,6 +117,7 @@ function isNotTheSameOpenCardClicked(card) {
 
 function handleEndOfGame() {
     if (matchingPairs == noOfPairs) {
+        stopTimer();
         displayWinningMessage();
     } else if (noMoreMovesLeft()) {
         disableClickingOnCards();
@@ -273,3 +274,19 @@ function restartGame() {
 }
 
 restart.onclick = restartGame;
+
+/*
+ * Timer functionality
+ */
+const timerElement = document.querySelector('.timer');
+const id = setInterval(handleTimer, 1000);
+let timeCounter = 0;
+
+function handleTimer() {
+    timerElement.textContent = timeCounter;
+    timeCounter++;
+}
+
+function stopTimer() {
+    clearInterval(id);
+}
