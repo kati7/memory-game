@@ -177,8 +177,22 @@ function checkPairMatchingConditions(card) {
         lockCardsInOpenPosition(previousCard, card);
         matchingPairs++;
     } else {
+        addNoMatchingPairAnimation(previousCard, card);
         closeCards(card, previousCard);
+        removeNoMatchingPairAnimation(previousCard, card);
     }
+}
+
+function removeNoMatchingPairAnimation(previousCard, card) {
+    setTimeout(function () {
+        previousCard.style.removeProperty('animation');
+        card.style.removeProperty('animation');
+    }, 1000);
+}
+
+function addNoMatchingPairAnimation(previousCard, card) {
+    previousCard.style.animation = 'background-change 1s';
+    card.style.animation = 'background-change 1s';
 }
 
 function areCardsSymbolsMatching(previousCard, card) {
@@ -191,7 +205,7 @@ function closeCards(card, previousCard) {
     setTimeout(function () {
         card.classList.remove('open', 'show');
         previousCard.classList.remove('open', 'show');
-    }, 500);
+    }, 1000);
 }
 
 function lockCardsInOpenPosition(previousCard, card) {
