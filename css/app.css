@@ -146,6 +146,10 @@ h1 {
     color: green;
 }
 
+.lost-sign {
+    color: red;
+}
+
 .play-again-button {
     background-color: #14ab9d;
     color: white;

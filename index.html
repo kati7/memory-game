@@ -43,13 +43,28 @@
 
         <!-- Modal content -->
         <div class="modal-box">
-            <span class="close">&times;</span>
+            <span id="winning-modal__close" class="close">&times;</span>
             <div class="modal-content">
                 <h1><i class="fa fa-check-circle-o well-done-sign"></i></h1>
                 <h1>Congratulations! You won!</h1>
                 <p class="modal-moves-info">With 17 moves and 1 stars</p>
                 <p>Wooooo!</p>
                 <br>
+                <button class="play-again-button">Play again!</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- The Modal -->
+    <div id="losing-modal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-box">
+            <span id="losing-modal__close" class="close">&times;</span>
+            <div class="modal-content">
+                <h1><i class="fa fa-times-circle lost-sign"></i></h1>
+                <h1>Sorry:( You lost!:(</h1>
                 <button class="play-again-button">Play again!</button>
             </div>
         </div>
