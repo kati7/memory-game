@@ -20,6 +20,8 @@ const movesElement = document.querySelector('.moves');
 const starsList = document.querySelector('.stars');
 const initialNoOfStars =starsList.childElementCount;
 
+const restart = document.querySelector('.restart');
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -218,19 +220,34 @@ const btn = document.getElementById('myBtn');
 const winningSpan = document.getElementById('winning-modal__close');
 const losingSpan = document.getElementById('losing-modal__close');
 
+// Get the 'playing again' buttons
+const winningButton =  document.getElementById('winning-modal__button');
+const losingButton =  document.getElementById('losing-modal__button');
+
 // When the user clicks on the button, open the modal 
 btn.onclick = function() {
-    // winningModal.style.display = 'block';
-    losingModal.style.display = 'block';
+    winningModal.style.display = 'block';
+    // losingModal.style.display = 'block';
 }
 
 // When the user clicks on <span> (x), close the modal
 winningSpan.onclick = function() {
-    winningModal.style.display = 'none';
+    closeWinningModal();
 }
 
 losingSpan.onclick = function() {
-    losingModal.style.display = 'none';
+    closeLosingModal();
+}
+
+// When the user clicks on 'play again' button, restart the game
+winningButton.onclick = function() {
+    closeWinningModal();
+    restartGame();
+}
+
+losingButton.onclick = function() {
+    closeLosingModal();
+    restartGame();
 }
 
 // When the user clicks anywhere outside of the modal, close it
@@ -242,4 +259,21 @@ window.addEventListener('click', function(event) {
     }
 });
 
+/*
+ * Restart functionality
+ */
+function restartGame() {
+    location.reload(true);
+}
+
+restart.onclick = restartGame;
+
+
+function closeLosingModal() {
+    losingModal.style.display = 'none';
+}
+
+function closeWinningModal() {
+    winningModal.style.display = 'none';
+}
 
